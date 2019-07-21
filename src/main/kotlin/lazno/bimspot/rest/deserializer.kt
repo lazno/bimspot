@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kittinunf.fuel.core.ResponseDeserializable
+import lazno.bimspot.MeasuresBySpecies
 import lazno.bimspot.Regions
 import lazno.bimspot.SpeciesInRegion
 
@@ -13,6 +14,7 @@ import lazno.bimspot.SpeciesInRegion
 interface Deserializer {
     fun regions(): ResponseDeserializable<Regions>
     fun speciesInRegion(): ResponseDeserializable<SpeciesInRegion>
+    fun measureBySpecies(): ResponseDeserializable<MeasuresBySpecies>
 }
 
 /**
@@ -24,6 +26,8 @@ object JacksonDeserializer : Deserializer {
     override fun regions(): ResponseDeserializable<Regions> =  RegionsDeserializable
 
     override fun speciesInRegion(): ResponseDeserializable<SpeciesInRegion> = SpeciesDeserializable
+
+    override fun measureBySpecies(): ResponseDeserializable<MeasuresBySpecies> = MeasureDeserializable
 
 
     private object RegionsDeserializable : ResponseDeserializable<Regions> {
@@ -39,6 +43,14 @@ object JacksonDeserializer : Deserializer {
                 tryOrElse(
                         {jacksonObjectMapper().readValue(content)},
                         SpeciesInRegion(count = 0, region_identifier = "", page = 0, result = emptyList())
+                )
+    }
+
+    private object MeasureDeserializable: ResponseDeserializable<MeasuresBySpecies> {
+        override fun deserialize(content: String) =
+                tryOrElse(
+                        {jacksonObjectMapper().readValue<MeasuresBySpecies>(content)},
+                        MeasuresBySpecies(name = "", result = emptyList())
                 )
     }
 

@@ -2,6 +2,7 @@ package lazno.bimspot.rest
 
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
+import lazno.bimspot.Measure
 import lazno.bimspot.Region
 import lazno.bimspot.Species
 
@@ -11,12 +12,14 @@ import lazno.bimspot.Species
 class FuelRedlistClient(private val token: String, private val deserializer: Deserializer) {
     private val baseUrl = "https://apiv3.iucnredlist.org/api/v3"
     private val speciesByRegionUrl: String = "$baseUrl/species/region/%s/page/%d?token=$token"
+    private val conservationBySpeciesUrl: String = "$baseUrl/measures/species/name/%s?token=$token"
+
     private val globalRegion = "global"
 
     /**
      * fetch all regions
      */
-    suspend fun regions(): List<Region> =
+    fun regions(): List<Region> =
             Fuel.get("$baseUrl/region/list?token=$token")
                 .responseObject(deserializer.regions())
                 .third
@@ -28,12 +31,26 @@ class FuelRedlistClient(private val token: String, private val deserializer: Des
     /**
      * fetch species on page x in region y
      */
-    suspend fun speciesBy(region: Region, page: Int): List<Species> {
+    fun speciesBy(region: Region, page: Int): List<Species> {
         val url = speciesByRegionUrl.format(region.identifier, page)
         return Fuel.get(url)
                 .responseObject(deserializer.speciesInRegion())
                 .third
                 .fold<List<Species>>(
+                        {return it.result},
+                        {return handleError(it)}
+                )
+    }
+
+    /**
+     * fetch conservation measures for a species
+     */
+    fun conservationMeasuresBy(species: Species): List<Measure> {
+        val url = conservationBySpeciesUrl.format(species.scientific_name)
+        return Fuel.get(url)
+                .responseObject(deserializer.measureBySpecies())
+                .third
+                .fold<List<Measure>>(
                         {return it.result},
                         {return handleError(it)}
                 )
