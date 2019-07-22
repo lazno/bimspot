@@ -2,8 +2,14 @@ package lazno.bimspot
 
 import lazno.bimspot.rest.RedlistClient
 
+/**
+ * class with arbitrary logic of this exercise. run method will execute steps 1 through 5
+ */
 class ExerciseIUCN(private val client: RedlistClient, private val category: Category, private val className: String) {
 
+    /**
+     * execute steps 1 through 5
+     */
     fun run() {
         val regions = client.regions()
         println("Step 1: fetched ${regions.size} regions")
