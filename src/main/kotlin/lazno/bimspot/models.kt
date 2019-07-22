@@ -11,18 +11,20 @@ data class Species(val taxonid: Int, val kingdom_name: String, val phylum_name: 
                    val infra_rank: String?, val infra_name: String?, val population: String?, val subpopulation:
                    String?, val category: Category, val measures: String?)
 
-data class MeasuresBySpecies(val name: String, val result: List<Measure>)
+data class MeasuresBySpecies(val name: String?, val result: List<Measure>)
 data class Measure(val code: String, val title: String)
 
 enum class Category(@get:JsonValue val code: String) {
-    DD("DD"), 
-    LC("LC"), 
+    DD("DD"),
+    RE("RE"),
+    LC("LC"),
     NT("NT"), 
     VU("VU"), 
     EN("EN"), 
     CR("CR"), 
     EW("EW"), 
-    EX("EX"), 
+    EX("EX"),
+    NA("NA"),
     LR_lc("LR/lc"),
     LR_nt("LR/nt"),
     LR_cd("LR/cd")

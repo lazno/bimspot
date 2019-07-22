@@ -96,6 +96,28 @@ class JacksonDeserializerTest {
         assertThat(meas_6?.code).isEqualTo("3.1.2")
         assertThat(meas_6?.title).isEqualTo("Trade management")
     }
+    @Test
+    fun `when name in measure json is empty then remaining fields should be mapped`() {
+        val validMeasureJson = "{\"result\":[" +
+                "{\"code\":\"1.1\",\"title\":\"Site/area protection\"}," +
+                "{\"code\":\"1.2\",\"title\":\"Resource & habitat protection\"}," +
+                "{\"code\":\"2.1\",\"title\":\"Site/area management\"}," +
+                "{\"code\":\"3.1\",\"title\":\"Species management\"}," +
+                "{\"code\":\"3.1.1\",\"title\":\"Harvest management\"}," +
+                "{\"code\":\"3.1.2\",\"title\":\"Trade management\"}]}"
+
+        val meas: MeasuresBySpecies? = JacksonDeserializer.measureBySpecies().deserialize(validMeasureJson)
+
+        assertThat(meas?.result?.size).isEqualTo(6)
+
+        val meas_1 = meas?.result?.get(0)
+        assertThat(meas_1?.code).isEqualTo("1.1")
+        assertThat(meas_1?.title).isEqualTo("Site/area protection")
+        val meas_6 = meas?.result?.get(5)
+        assertThat(meas_6?.code).isEqualTo("3.1.2")
+        assertThat(meas_6?.title).isEqualTo("Trade management")
+    }
+
 
 
     @Test

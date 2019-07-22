@@ -61,7 +61,8 @@ object JacksonDeserializer : Deserializer {
         return try {
             fn()
         } catch (e: JsonMappingException) {
-            orElse
+            println("error while deserializing: ${e.message}")
+            return orElse
         }
     }
 
