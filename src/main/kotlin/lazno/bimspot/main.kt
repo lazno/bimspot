@@ -13,7 +13,7 @@ fun main() {
     randomRegion?.let { region ->
         println("region is $region")
         val species = client.speciesBy(region = region, page = 0)
-                .filter { it.category == "CR" }
+                .filter { it.category == Category.CR }
 
         println("found ${species.size} species for this region")
         species.stream().parallel()

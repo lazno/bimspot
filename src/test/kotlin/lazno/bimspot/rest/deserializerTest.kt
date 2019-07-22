@@ -1,5 +1,6 @@
 package lazno.bimspot.rest
 
+import lazno.bimspot.Category
 import lazno.bimspot.MeasuresBySpecies
 import lazno.bimspot.Regions
 import lazno.bimspot.SpeciesInRegion
@@ -55,10 +56,10 @@ class JacksonDeserializerTest {
 
         val spec_1 = spec?.result?.get(0)
         assertThat(spec_1?.taxonid).isEqualTo(59)
-        assertThat(spec_1?.category).isEqualTo("DD")
+        assertThat(spec_1?.category).isEqualTo(Category.DD)
         val spec_5 = spec?.result?.get(4)
         assertThat(spec_5?.taxonid).isEqualTo(224)
-        assertThat(spec_5?.category).isEqualTo("CR")
+        assertThat(spec_5?.category).isEqualTo(Category.CR)
     }
 
 
