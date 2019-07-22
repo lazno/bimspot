@@ -1,4 +1,4 @@
-# bimspot
+# bimspot IUCN red list exercise
 
 ## build 
 
