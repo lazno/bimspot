@@ -2,6 +2,7 @@ package lazno.bimspot.rest
 
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FuelError
+import com.github.kittinunf.fuel.core.Request
 import lazno.bimspot.Measure
 import lazno.bimspot.Region
 import lazno.bimspot.Species
@@ -28,7 +29,8 @@ interface RedlistClient {
 /**
  * implementation of the IUCN Redlist API using Fuel
  */
-class FuelRedlistClient(private val token: String, private val deserializer: Deserializer): RedlistClient {
+class FuelRedlistClient(private val token: String, private val deserializer: Deserializer, private val timeout: Int):
+        RedlistClient {
     private val baseUrl = "https://apiv3.iucnredlist.org/api/v3"
     private val speciesByRegionUrl: String = "$baseUrl/species/region/%s/page/%d?token=$token"
     private val conservationBySpeciesUrl: String = "$baseUrl/measures/species/name/%s?token=$token"
@@ -36,7 +38,7 @@ class FuelRedlistClient(private val token: String, private val deserializer: Des
     private val globalRegion = "global"
 
     override fun regions(): List<Region> =
-            Fuel.get("$baseUrl/region/list?token=$token")
+            get("$baseUrl/region/list?token=$token")
                 .responseObject(deserializer.regions())
                 .third
                 .fold<List<Region>>(
@@ -47,7 +49,7 @@ class FuelRedlistClient(private val token: String, private val deserializer: Des
 
     override fun speciesBy(region: Region, page: Int): List<Species> {
         val url = speciesByRegionUrl.format(region.identifier, page)
-        return Fuel.get(url)
+        return get(url)
                 .responseObject(deserializer.speciesInRegion())
                 .third
                 .fold<List<Species>>(
@@ -58,7 +60,7 @@ class FuelRedlistClient(private val token: String, private val deserializer: Des
 
     override fun conservationMeasuresBy(species: Species): List<Measure> {
         val url = conservationBySpeciesUrl.format(species.scientific_name)
-        return Fuel.get(url)
+        return get(url)
                 .responseObject(deserializer.measureBySpecies())
                 .third
                 .fold<List<Measure>>(
@@ -71,4 +73,7 @@ class FuelRedlistClient(private val token: String, private val deserializer: Des
         println(err.message)
         return emptyList()
     }
+
+    private fun get(url: String): Request =
+            Fuel.get(url).timeout(timeout)
 }
