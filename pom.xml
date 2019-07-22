@@ -15,6 +15,8 @@
         <jackson.version>2.9.9</jackson.version>
         <junit.version>5.5.1</junit.version>
         <assertj.version>3.12.2</assertj.version>
+        <cli-kt.version>2.1.0</cli-kt.version>
+
         <surefire-plugin.version>2.22.2</surefire-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
@@ -61,6 +63,11 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ajalt</groupId>
+            <artifactId>clikt</artifactId>
+            <version>${cli-kt.version}</version>
         </dependency>
     </dependencies>
 
