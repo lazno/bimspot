@@ -50,7 +50,7 @@ object JacksonDeserializer : Deserializer {
         override fun deserialize(content: String) =
                 tryOrElse(
                         {jacksonObjectMapper().readValue<MeasuresBySpecies>(content)},
-                        MeasuresBySpecies(name = "", result = emptyList())
+                        MeasuresBySpecies(name = "", result = emptyList(), value = "", species = "")
                 )
     }
 

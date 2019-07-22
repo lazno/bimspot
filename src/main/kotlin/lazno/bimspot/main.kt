@@ -21,7 +21,7 @@ fun main() {
         val endangeredSpecies = species.filter { it.category == Category.CR }
         println("\nStep 5: found ${endangeredSpecies.size} critically endangered species." )
         if (endangeredSpecies.isNotEmpty()) {
-            println("fetching conservation measures and printing them")
+            println("fetching conservation measures and printing them with species")
         }
         endangeredSpecies.parallelStream()
               .map { spec -> addMeasures(spec, client) }

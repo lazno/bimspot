@@ -51,7 +51,7 @@ class FuelRedlistClient(private val token: String, private val deserializer: Des
                 .responseObject(deserializer.measureBySpecies())
                 .third
                 .fold<List<Measure>>(
-                        {return it.result},
+                        {return it.result ?: emptyList()},
                         {return handleError(it)}
                 )
     }
