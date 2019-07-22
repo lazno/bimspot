@@ -4,11 +4,11 @@
 
 mvn install
 
-## run 
+## default run 
 
 java -jar target/bimspot-1.0-SNAPSHOT-jar-with-dependencies.jar
 
-## help 
+## help and options
 
 java -jar target/bimspot-1.0-SNAPSHOT-jar-with-dependencies.jar --help
 
