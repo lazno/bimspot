@@ -63,12 +63,6 @@ class ExerciseIUCN(private val client: RedlistClient, private val category: Cate
         return mammals
     }
 
-
-
-
-
-
-
     private fun addMeasures(spec: Species, client: RedlistClient): Species {
         val measures = client.conservationMeasuresBy(spec)
         return spec.copy(measures = measuresAsString(measures))
