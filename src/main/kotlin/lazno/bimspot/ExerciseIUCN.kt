@@ -21,7 +21,7 @@ class ExerciseIUCN(private val client: RedlistClient, private val category: Cate
                     .forEach { println(it) }
 
             filterMammals(species)
-                    .forEach{ println(it) }
+                    .forEach { println(it) }
         }
     }
 
@@ -29,7 +29,10 @@ class ExerciseIUCN(private val client: RedlistClient, private val category: Cate
         val regions = client.regions()
         println("Step 1: fetching regions")
         val entry = randomEntryOf(regions)
-        println("\nStep 2: total of ${regions.size} regions. random region is $entry")
+        entry?.let { reg -> println("\nStep 2: total of ${regions.size} regions. random region is $reg") }
+                ?: run {
+                    println("Step 2: total of ${regions.size} regions.")
+                }
         return entry
     }
 
@@ -41,7 +44,7 @@ class ExerciseIUCN(private val client: RedlistClient, private val category: Cate
 
     private fun filterCriticalEndangered(species: List<Species>): List<Species> {
         val endangeredSpecies = species.filter { it.category == category }
-        println("\nStep 5: found ${endangeredSpecies.size} species with category ${category.code}" )
+        println("\nStep 5: found ${endangeredSpecies.size} species with category ${category.code}")
         return endangeredSpecies
     }
 
