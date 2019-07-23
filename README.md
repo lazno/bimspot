@@ -12,8 +12,8 @@ java -jar target/bimspot-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 java -jar target/bimspot-1.0-SNAPSHOT-jar-with-dependencies.jar --help
 
-allows for a custom IUCN red list api token via the --token switch
+--token allows for a custom IUCN red list api token (default is the token used in the examples on http://apiv3.iucnredlist.org/api/v3/docs)
 
-allows for a custom timout in milliseconds via the --timeout switch
+--timeout allows for a custom timout in milliseconds for single requests (default is 2000)
 
-usage: java -jar target/bimspot-1.0-SNAPSHOT-jar-with-dependencies.jar --timeout 1000 --token mytoken
+usage: java -jar target/bimspot-1.0-SNAPSHOT-jar-with-dependencies.jar --timeout 1000 --token <mytoken>
